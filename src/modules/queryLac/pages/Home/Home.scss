@@ -1,0 +1,25 @@
+.Home {
+  display: flex;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+.hero {
+  display: grid;
+  grid-gap: 1rem 0;
+
+  &__title {
+    font-size: 36px;
+    color: var(--primary);
+  }
+
+  &__subtitle {
+    font-size: 22px;
+
+    span {
+      color: var(--secondary);
+
+    }
+  }
+}
+

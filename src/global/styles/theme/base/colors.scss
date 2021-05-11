@@ -1,0 +1,75 @@
+/*=====================
+Colors
+=======================*/
+$primary: #2D2556;
+$secondary: #EC691F;
+
+$primary-dark--0: #201a3c;
+$primary-light--1: #3b3171;
+$primary-light--2: #493c8c;
+$primary-light--3: #5748a7;
+$primary-light--4: #6c5db9;
+$primary-light--5: #8478c5;
+$primary-light--6: #9d93d0;
+$primary-light--7: #b5aedc;
+$primary-light--8: #cec9e8;
+$primary-light--9: #e6e4f3;
+
+$secondary-dark--0: #c55211;
+$secondary-light--1: #ee7835;
+$secondary-light--2: #f0874c;
+$secondary-light--3: #f29662;
+$secondary-light--4: #f4a579;
+$secondary-light--5: #f6b48f;
+$secondary-light--6: #f7c3a5;
+$secondary-light--7: #f9d2bc;
+$secondary-light--8: #fbe1d2;
+
+$gray: #8d8d8d;
+$red: #ec1f1f;
+$green: #2dec1f;
+$yellow: #ece21f;
+$pink: #ec1fb2;
+$celeste: #1fecd4;
+$blue: #1f63ec;
+
+
+:root {
+  --primary: #{$primary};
+  --secondary: #{$secondary};
+
+  --primary-dark--0: #{$primary-dark--0};
+  --primary-light--1: #{$primary-light--1};
+  --primary-light--2: #{$primary-light--2};
+  --primary-light--3: #{$primary-light--3};
+  --primary-light--4: #{$primary-light--4};
+  --primary-light--5: #{$primary-light--5};
+  --primary-light--6: #{$primary-light--6};
+  --primary-light--7: #{$primary-light--7};
+  --primary-light--8: #{$primary-light--8};
+  --primary-light--9: #{$primary-light--9};
+
+  --secondary-dark--0: #{$secondary-dark--0};
+  --secondary-light--1: #{$secondary-light--1};
+  --secondary-light--2: #{$secondary-light--2};
+  --secondary-light--3: #{$secondary-light--3};
+  --secondary-light--4: #{$secondary-light--4};
+  --secondary-light--5: #{$secondary-light--5};
+  --secondary-light--6: #{$secondary-light--6};
+  --secondary-light--7: #{$secondary-light--7};
+  --secondary-light--8: #{$secondary-light--8};
+
+  --gray: #{$gray};
+  --red: #{$red};
+  --green: #{$green};
+  --yellow: #{$yellow};
+  --pink: #{$pink};
+  --celeste: #{$celeste};
+  --blue: #{$blue};
+
+  --bg-body: #{white}
+}
+
+.theme-dark {
+  --bg-body: #{black}
+}
