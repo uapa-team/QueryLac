@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../querylac-api/.idea/querylac-api.iml" filepath="$PROJECT_DIR$/../querylac-api/.idea/querylac-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/querylac-frontend.iml" filepath="$PROJECT_DIR$/.idea/querylac-frontend.iml" />
     </modules>
   </component>

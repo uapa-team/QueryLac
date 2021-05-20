@@ -3,11 +3,10 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-
-import contacts from "./reducers/getContacts.reducer";
+import getTeacherData from "./reducers/LacTable/getTeachersData.reducer";
 
 const reducer = combineReducers({
-    contacts: contacts,
+    teachers: getTeacherData,
 });
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(logger, thunk)));

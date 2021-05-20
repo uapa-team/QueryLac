@@ -8,6 +8,7 @@ class HomePage extends Component {
             <div className="Home">
 
                 <div className="container">
+
                     <div className="hero">
                         <h1 className="hero__title">Bienvenido a QueryLac</h1>
                         <p className="hero__subtitle">Donde puedes consultar cualquiercosa-lac, pero todo es
@@ -15,7 +16,6 @@ class HomePage extends Component {
                     </div>
 
                     <LacTable/>
-
 
                 </div>
             </div>
