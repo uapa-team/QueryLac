@@ -1,6 +1,6 @@
 import React from "react";
 import {Component} from "react";
-import {Carousel, Upload, message} from 'antd';
+import {Carousel, Upload} from 'antd';
 import MaterialTable from "material-table";
 import 'antd/dist/antd.compact.css';
 import './LacTable.scss';
