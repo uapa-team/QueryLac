@@ -5,6 +5,7 @@ import MaterialTable from "material-table";
 import 'antd/dist/antd.compact.css';
 import './LacTable.scss';
 import {connect} from "react-redux";
+
 import readXlsxFile from 'read-excel-file';
 import {getTeacherBasicDetails} from "../../redux/actions/LacTable/cvlac/getTeacherBasicDetails.action";
 import {getTeacherArticles} from "../../redux/actions/LacTable/cvlac/getTeacherArticles.action";
