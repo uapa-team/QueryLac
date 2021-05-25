@@ -139,10 +139,10 @@ class LacTable extends Component {
             beforeUpload: (file) => {
                 readXlsxFile(file).then(async (rows) => {
                     this.setState({dataToRequest: {[activeModule]: rows}});
-                    // for (let i = 0; i < rows.length; i++) {
-                    //     await this.props.getTeacherBasicDetails(rows[i], category);
-                    // }
-                    rows.forEach(dni => this.props.getTeacherBasicDetails(dni[0], activeCategory))
+                    for (let i = 0; i < rows.length; i++) {
+                        await this.props.getTeacherBasicDetails(rows[i][0], activeCategory);
+                    }
+                    // rows.forEach(dni => this.props.getTeacherBasicDetails(dni[0], activeCategory));
                 });
                 return false;
             },

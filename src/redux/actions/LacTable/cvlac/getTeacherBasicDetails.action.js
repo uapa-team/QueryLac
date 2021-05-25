@@ -5,9 +5,7 @@ export const getTeacherBasicDetails = (id) => {
         const apiUrl = process.env.NODE_ENV === 'production' ? `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}/basicDetails` : `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}/basicDetails`;
         const options = {
             method: 'GET',
-
             credentials: "same-origin",
-
             headers: {
                 'Accept': 'application/json',
             },
