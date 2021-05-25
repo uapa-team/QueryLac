@@ -2,9 +2,7 @@ export const getTeacherBasicDetails = (id) => {
     return async (dispatch, getState) => {
 
         dispatch(getTeacherBasicDetailsRequest());
-
-        const url = `http://localhost:4000/api/cvlac/teacher/${id}/basicDetails`;
-        console.log(url)
+        const apiUrl = process.env.NODE_ENV === 'production' ? `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}/basicDetails` : `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}/basicDetails`;
         const options = {
             method: 'GET',
 
@@ -16,7 +14,7 @@ export const getTeacherBasicDetails = (id) => {
         };
 
         try {
-            const response = await fetch(url, options).then(response => {
+            const response = await fetch(apiUrl, options).then(response => {
                 if (!response.ok) throw Error(response.status);
                 return response;
             });
