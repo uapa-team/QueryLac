@@ -1,5 +1,5 @@
 const initialState = {
-    teachers: {
+    data: {
         basicDetails: [],
         articles: [],
         bookChapters: [],
@@ -21,15 +21,18 @@ const initialState = {
 const reducer = (state = initialState, {type, payload}) => {
     switch (type) {
 
+        case 'RESET_TEACHERS_DATA':
+            return initialState;
+
         case 'GET_TEACHER_BASIC_DETAILS_REQUEST':
             return {...state, loading: true};
         case 'GET_TEACHER_BASIC_DETAILS_SUCCESS':
             return {
                 ...state,
                 loading: false,
-                teachers: {
-                    ...state.teachers,
-                    basicDetails: [...state.teachers.basicDetails, payload]
+                data: {
+                    ...state.data,
+                    basicDetails: [...state.data.basicDetails, payload]
                 }
             };
         case 'GET_TEACHER_BASIC_DETAILS_FAILURE':
@@ -42,9 +45,9 @@ const reducer = (state = initialState, {type, payload}) => {
             return {
                 ...state,
                 loading: false,
-                teachers: {
-                    ...state.teachers,
-                    articles: [...state.teachers.articles, ...payload]
+                data: {
+                    ...state.data,
+                    articles: [...state.data.articles, ...payload]
                 }
             };
         case 'GET_TEACHER_ARTICLES_FAILURE':
@@ -56,9 +59,9 @@ const reducer = (state = initialState, {type, payload}) => {
             return {
                 ...state,
                 loading: false,
-                teachers: {
-                    ...state.teachers,
-                    bookChapters: [...state.teachers.bookChapters, ...payload]
+                data: {
+                    ...state.data,
+                    bookChapters: [...state.data.bookChapters, ...payload]
                 }
             };
         case 'GET_TEACHER_BOOK_CHAPTERS_FAILURE':

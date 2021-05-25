@@ -15,7 +15,6 @@
       padding: 10px 20px;
       position: relative;
       font-size: 1.6rem;
-      color: var(--primary-light--5);
 
       &:after {
         position: absolute;
@@ -25,7 +24,15 @@
         height: 2px;
         bottom: 0;
         left: 0;
-        background: var(--secondary);
+      }
+
+      &--active {
+        color: var(--primary-light--5);
+        pointer-events: none;
+
+        &:after {
+          background: var(--secondary);
+        }
       }
 
       &--inactive {
@@ -54,6 +61,15 @@
     border-radius: 0.4rem;
     display: grid;
     grid-gap: 2rem 0;
+
+    &--loading {
+      cursor: progress;
+      filter: opacity(0.5) blur(1px);
+
+      * {
+        pointer-events: none;
+      }
+    }
   }
 
   &-header {
@@ -81,6 +97,7 @@
         font-size: 1.6rem;
       }
     }
+
     //Css hack to set the same height for all the slides
     .slick-track {
       display: flex !important;
@@ -97,6 +114,7 @@
       padding: 10px 20px;
       position: relative;
       font-size: 1.6rem;
+      background: transparent;
 
       &:after {
         position: absolute;
@@ -110,6 +128,7 @@
 
       &--active {
         color: var(--primary-light--5);
+        pointer-events: none;
 
         &:after {
           background: var(--secondary);
@@ -167,6 +186,66 @@
 
   &-table {
 
+    //Custom styling for material table
+
+    .MuiPaper-root {
+      box-shadow: none;
+      //Titles
+      th {
+        color: var(--primary);
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+      }
+    }
+
+    .MuiToolbar-root {
+      * {
+        font-size: 12px;
+      }
+
+      .material-icons {
+        font-size: 18px;
+      }
+    }
+
+    .MuiTableBody-root {
+      //rows
+      td, tr {
+        border: none;
+      }
+
+      tr {
+        font-size: 14px;
+        font-weight: 500;
+
+        &:nth-child(even) {
+          background: var(--primary-light--10);
+        }
+      }
+
+      td {
+        padding: 12px;
+
+        &:nth-last-child(0), &:nth-child(0) {
+          padding: 0 20px;
+        }
+      }
+    }
+
+    //Footer (pagination)
+    .MuiTableFooter-root {
+      * {
+        font-size: 12px;
+        border: none;
+      }
+
+      .material-icons {
+        font-size: 18px;
+      }
+    }
+
     width: 100%;
 
     @include sm() {
@@ -188,5 +267,6 @@
     @include xxl() {
       max-width: 1320px;
     }
+
   }
 }
