@@ -31,8 +31,20 @@ const reducer = (state = initialState, {type, payload}) => {
                 ...state,
                 loading: false,
                 data: {
-                    basicDetails: [...state.data['basicDetails']],
-                    ...payload
+                    basicDetails: [...state.data.basicDetails],
+                    articles: [...state.data.articles, ...payload['articles']],
+                    bookChapters: [...state.data.bookChapters, ...payload['bookChapters']],
+                    awards: [...state.data.awards, ...payload['awards']],
+                    events: [...state.data.events, ...payload['events']],
+                    languages: [...state.data.languages, ...payload['languages']],
+                    books: [...state.data.books, ...payload['books']],
+                    networks: [...state.data.networks, ...payload['networks']],
+                    softwares: [...state.data.softwares, ...payload['softwares']],
+                    titles: [...state.data.titles, ...payload['titles']],
+                    judges: [...state.data.judges, ...payload['judges']],
+                    projects: [...state.data.projects, ...payload['projects']],
+                    couplesEvaluators: [...state.data.couplesEvaluators, ...payload['couplesEvaluators']]
+
                 }
             };
 
@@ -50,7 +62,7 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    basicDetails: [payload]
+                    basicDetails: [...state.data.basicDetails, payload]
                 }
             };
         case 'GET_TEACHER_BASIC_DETAILS_FAILURE':
