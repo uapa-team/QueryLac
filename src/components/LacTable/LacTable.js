@@ -340,9 +340,9 @@ class LacTable extends Component {
                     <button onClick={() => changePage( "cvlac")}
                             className={`LacTable-nav__tab LacTable-nav__tab--${activeModule === "cvlac" ? "active" : "inactive"}`}>CvLac
                     </button>
-                    <button onClick={() => changePage( "grouplac")}
-                            className={`LacTable-nav__tab LacTable-nav__tab--${activeModule === "grouplac" ? "active" : "inactive"}`}>GroupLac
-                    </button>
+                    {/*<button onClick={() => changePage( "grouplac")}*/}
+                    {/*        className={`LacTable-nav__tab LacTable-nav__tab--${activeModule === "grouplac" ? "active" : "inactive"}`}>GroupLac*/}
+                    {/*</button>*/}
                     {/*<li onClick={(btn) => changePage(btn, "googleScholar")} className="LacTable-nav__tab LacTable-nav__tab--inactive">GoogleScholar*/}
                     {/*</li>*/}
                 </div>
