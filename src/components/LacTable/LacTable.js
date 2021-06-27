@@ -1,114 +1,173 @@
-import React from "react";
-import {Component} from "react";
-import {Carousel, Upload} from 'antd';
+//Dependencies
+import React, {Component} from "react";
+import {Carousel, Dropdown, Upload, message} from 'antd';
 import MaterialTable from "material-table";
-import 'antd/dist/antd.compact.css';
-import './LacTable.scss';
-import {connect} from "react-redux";
-
 import readXlsxFile from 'read-excel-file';
+import XLSX from 'xlsx';
+
+//Styles
+import './LacTable.scss';
+
+//Redux
+import {connect} from "react-redux";
 import {getTeacherBasicDetails} from "../../redux/actions/LacTable/cvlac/getTeacherBasicDetails.action";
 import {getTeacherArticles} from "../../redux/actions/LacTable/cvlac/getTeacherArticles.action";
 import {getTeacherBookChapters} from "../../redux/actions/LacTable/cvlac/getTeacherBookChapters.action";
 import {resetTeachersData} from "../../redux/actions/LacTable/cvlac/resetTeachersData.action";
+import {getTeacherInfo} from "../../redux/actions/LacTable/cvlac/getTeacherInfo.action";
+import {getTeacherAwards} from "../../redux/actions/LacTable/cvlac/getTeacherAwards.action";
+import {getTeacherEvents} from "../../redux/actions/LacTable/cvlac/getTeacherEvents.action";
+import {getTeacherLanguages} from "../../redux/actions/LacTable/cvlac/getTeacherLanguages.action";
+import {getTeacherBooks} from "../../redux/actions/LacTable/cvlac/getTeacherBooks.action";
+import {getTeacherNetworks} from "../../redux/actions/LacTable/cvlac/getTeacherNetworks.action";
+import {getTeacherSoftwares} from "../../redux/actions/LacTable/cvlac/getTeacherSoftwares.action";
+import {getTeacherTitles} from "../../redux/actions/LacTable/cvlac/getTeacherTitles.action";
+import {getTeacherJudges} from "../../redux/actions/LacTable/cvlac/getTeacherJudges.action";
+import {getTeacherProjects} from "../../redux/actions/LacTable/cvlac/getTeacherProjects.action";
+import {getTeacherCouplesEvaluators} from "../../redux/actions/LacTable/cvlac/getTeacherCouplesEvaluators.action";
+import {getGroupInfo} from "../../redux/actions/LacTable/grouplac/getGroupInfo.action";
+import {resetGroupsData} from "../../redux/actions/LacTable/grouplac/resetGroupsData.action";
+import {getGroupBasicDetails} from "../../redux/actions/LacTable/grouplac/getGroupBasicDetails.action";
+
+//TODO: Make this queryable?? or just let them in english
+const cvlacCategories = [
+    {name: "basicDetails", title: "Datos básicos"},
+    {name: "articles", title: "Artículos"},
+    {name: "bookChapters", title: "Capítulos de libros"},
+    {name: "awards", title: "Premios"},
+    {name: "events", title: "Eventos científicos"},
+    {name: "languages", title: "Lenguajes"},
+    {name: "books", title: "Libros"},
+    {name: "networks", title: "Redes sociales"},
+    {name: "softwares", title: "Softwares"},
+    {name: "titles", title: "Títulos"},
+    {name: "judges", title: "Jurados"},
+    {name: "projects", title: "Proyectos"},
+    {name: "couplesEvaluators", title: "Pares evaluadores"},
+];
+
+const grouplacCategories = [
+    {name: "basicDetails", title: "Datos básicos"},
+    {name: "institutions", title: "Instituciones"},
+    {name: "investigationAreas", title: "Áreas de investigación"},
+    {name: "members", title: "Miembros"},
+];
+
+function capitalizeFirstLetter(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 class LacTable extends Component {
 
-    //Initial state
-    state = {
-        categories: [
-            {name: "basicDetails", title: "Datos básicos"},
-            {name: "articles", title: "Artículos"},
-            {name: "bookChapters", title: "Capítulos de libros"},
-            {name: "awards", title: "Premios"},
-        ],
-        activeCategory: 'basicDetails',
-        activeModule: 'cvlac',
-        dataToRequest: {cvlac: [], grouplac: []},
-    };
 
-    changePage = (button, module) => {
-        this.setState({activeModule: module});
+    constructor() {
+        super();
+        this.state = {
+            categories: cvlacCategories,
+            activeCategory: 'basicDetails',
+            activeModule: 'cvlac',
+            dataToRequest: [],
+        };
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps[this.state.activeModule].error !== null) message.error('Ops,ocurrió un error obteniendo información de profesores');
+        return true;
+    }
+
+    getAllInfo = async () => {
+        const {activeModule, dataToRequest} = this.state;
+        // Base on the module is on, call the correspondent method
+        let requestMethod;
+        switch (activeModule) {
+            case 'cvlac':
+                requestMethod = 'getTeacherInfo';
+                break;
+            case 'grouplac':
+                requestMethod = 'getGroupInfo';
+                break;
+            default:
+                return
+        }
+
+        for (let i = 0; i < dataToRequest.length; i++) {
+            await this.props[requestMethod](dataToRequest[i]);
+        }
+    }
+
+    changePage = (module) => {
+        this.setState({activeModule: module, activeCategory: "basicDetails"});
         switch (module) {
             case 'cvlac':
                 this.setState({
-                    categories: [
-                        {name: "basicDetails", title: "Datos básicos"},
-                        {name: "articles", title: "Artículos"},
-                        {name: "bookChapters", title: "Capítulos de libros"},
-                    ]
+                    categories: cvlacCategories
                 });
                 break;
             case 'grouplac':
                 this.setState({
-                    categories: [
-                        {name: "basicDetails", title: "Datos básicos"},
-                        {name: "members", title: "Miembros"},
-                        {name: "institutions", title: "Instituciones"},
-                    ]
+                    categories: grouplacCategories
                 });
                 break;
             case 'googleScholar':
                 this.setState({categories: [""]});
                 break;
+
+            default:
+                return
         }
 
     };
 
-    changeCategory = async (btn, category) => {
+    changeCategory = async (category) => {
+        let requestMethod;
         const {dataToRequest, activeModule} = this.state;
         this.setState({activeCategory: category});
 
-        // Base on the module and the category is on, not request again if the info is already requested.
         switch (activeModule) {
             case 'cvlac':
-                if (this.props.teachers.data[category].length > 0) return;
+                //Example: if category is "basicDetails" then requestMethod would be "getTeacherBasicDetails";
+                requestMethod = `getTeacher${capitalizeFirstLetter(category)}`;
+                //Not request again if the info is already requested.
+                if (this.props[activeModule].data[category].length > 0) return;
                 break;
             case 'grouplac':
-                if (this.props.groups.data[category].length > 0) return;
+                //Example: if category is "basicDetails" then requestMethod would be "getGroupBasicDetails";
+                requestMethod = `getGroup${capitalizeFirstLetter(category)}`;
+                //Not request again if the info is already requested.
+                if (this.props[activeModule].data[category].length > 0) return;
                 break;
             case 'googleScholar':
-                if (this.props.teachers.data[category].length > 0) return;
+                if (this.props[activeModule].data[category].length > 0) return;
                 break;
+
+            default:
+                return
         }
 
-        // Base on the category is on, call the correspondent method
-        let requestMethod;
-        switch (category) {
-            case 'basicDetails':
-                requestMethod = 'getTeacherBasicDetails';
-                break;
-            case 'articles':
-                requestMethod = 'getTeacherArticles';
-                break;
-            case 'bookChapters':
-                requestMethod = 'getTeacherBookChapters';
-                break;
-        }
-
-        for (let i = 0; i < dataToRequest[activeModule].length; i++) {
-            await this.props[requestMethod](dataToRequest[activeModule][i]);
+        for (let i = 0; i < dataToRequest.length; i++) {
+            await this.props[requestMethod](dataToRequest[i]);
         }
 
     };
 
-    makeColumns = (category) => {
-        const data = this.props.teachers.data[category];
+    makeColumns = () => {
+        const {activeModule, activeCategory} = this.state;
+        const data = this.props[activeModule].data[activeCategory];
         if (!data[0]) return;
 
         return Object.keys(data[0]).map(key => {
             return {
                 title: key,
                 field: key,
-                // width: 200
             };
         });
 
     };
 
 
-    makeRows = (category) => {
-        const data = this.props.teachers.data[category];
+    makeRows = () => {
+        const {activeModule, activeCategory} = this.state;
+        const data = this.props[activeModule].data[activeCategory];
         if (!data[0]) return;
 
         const colsKeys = Object.keys(data[0]);
@@ -117,30 +176,88 @@ class LacTable extends Component {
             let row = {
                 key: i,
             };
-            colsKeys.forEach((key, i) => {
+            colsKeys.forEach((key) => {
                 row[key] = element[key];
             })
             return row;
         })
     }
 
+    exportExcel = () => {
+        const {activeModule} = this.state;
+        const data = this.props[activeModule].data;
+        // A workbook is the name given to an Excel file
+        // Workbook contains one or more worksheets
+        // make Workbook of Excel
+        const workBook = XLSX.utils.book_new();
+        Object.keys(data).forEach((category) => {
+            const workSheet = XLSX.utils.json_to_sheet(data[category]);
+            // add Worksheet to Workbook
+            XLSX.utils.book_append_sheet(workBook, workSheet, category); // sheetAName is name of Worksheet
+        });
+        // export Excel file
+        XLSX.writeFile(workBook, 'book.xlsx')
+    }
+
+    exportCsv = () => {
+        const {activeCategory, activeModule} = this.state;
+        const data = this.props[activeModule].data[activeCategory];
+        // A workbook is the name given to an Excel file
+        // Workbook contains one or more worksheets
+        // make Workbook of Excel
+        const workBook = XLSX.utils.book_new();
+        const workSheet = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(workBook, workSheet, activeCategory);
+        // export Excel file
+        XLSX.writeFile(workBook, 'book.csv', {type: 'binary', bookType: "csv"});
+    }
+
+
     render() {
-        const {changePage} = this;
+        const {changeCategory, changePage, getAllInfo, makeRows, makeColumns, exportCsv, exportExcel} = this;
         const {categories, activeCategory, activeModule} = this.state;
+        const data = this.props[activeModule].data[activeCategory];
 
 
         const uploadBtnSettings = {
             accept: ".xlsx",
             name: 'file',
             maxCount: 1,
-            onChange: (file) => {
-                this.props.resetTeachersData();
+            onChange: (_) => {
+                switch (activeModule) {
+                    case 'cvlac':
+                        this.props.resetTeachersData();
+                        break;
+                    case 'grouplac':
+                        this.props.resetGroupsData();
+                        break;
+                    case 'googleScholar':
+                        break;
+
+                    default:
+                        return
+                }
             },
             beforeUpload: (file) => {
                 readXlsxFile(file).then(async (rows) => {
-                    this.setState({dataToRequest: {[activeModule]: rows}});
+                    this.setState({dataToRequest: rows});
+                    let requestMethod
+
+                    switch (activeModule) {
+                        case 'cvlac':
+                            requestMethod = "getTeacherBasicDetails";
+                            break;
+                        case 'grouplac':
+                            requestMethod = "getGroupBasicDetails";
+                            break;
+                        case 'googleScholar':
+                            break;
+                        default:
+                            return
+                    }
+
                     for (let i = 0; i < rows.length; i++) {
-                        await this.props.getTeacherBasicDetails(rows[i][0], activeCategory);
+                        await this.props[requestMethod](rows[i][0], activeCategory);
                     }
                     // rows.forEach(dni => this.props.getTeacherBasicDetails(dni[0], activeCategory));
                 });
@@ -150,67 +267,105 @@ class LacTable extends Component {
 
 
         const carrouselSettings = {
-            arrows: true,
             autoplay: false,
-            slidesToShow: 3,
+            arrows: true,
+            slidesToShow: 4,
             swipe: true,
             dots: false,
             infinite: false,
-            draggable: true
+            draggable: true,
+            mobileFirst: true,
+            responsive: [
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 3,
+                        arrows: false,
+                    }
+                }]
         };
 
-        const slides = categories.map(({name, title}) => {
+        const carrouselSlides = categories.map(({name, title}, i) => {
             return (
-                <div>
-                    <button onClick={(btn) => this.changeCategory(btn, name)}
+                <div key={i}>
+                    <button onClick={() => changeCategory( name)}
                             className={`LacTable-filterSlider__slide LacTable-filterSlider__slide--${activeCategory === name ? "active" : "inactive"}`}>
                         {title}
                     </button>
                 </div>
-            )
+            );
         });
 
 
         const tableSettings = {
-            columns: this.makeColumns(activeCategory),
-            data: this.makeRows(activeCategory),
+            columns: makeColumns(),
+            data: makeRows(),
             pageSize: 5,       // make initial page size
             emptyRowsWhenPaging: false,   //to make page size fix in case of less data rows
-            pageSizeOptions: [5, 10, 20, 50],
 
+            localization: {
+                body: {
+                    emptyDataSourceMessage: "🌟 Añade contenido 🌟"
+                },
+
+                toolbar: {
+                    searchTooltip: "Buscar",
+                    searchPlaceholder: "Buscar"
+                },
+                pagination: {
+                    labelDisplayedRows: '{from}-{to} de {count}',
+                    labelRowsSelect: 'Filas',
+                    firstTooltip: 'Primera página',
+                    previousTooltip: 'Anterior página',
+                    nextTooltip: 'Siguiente página',
+                    lastTooltip: 'Última página'
+                },
+            },
             options: {
-                exportButton: true,
-                exportFileName: activeCategory,
+                pageSizeOptions: [5, 10, 25, 50, data.length],
                 showTitle: false,
-
-
             }
         };
 
+        const exportMenu = (
+            <ul className="LacTable-actionBtns-menu">
+                <li className="LacTable-actionBtns-menu__option" onClick={() => exportExcel()}>Excel</li>
+                <li className="LacTable-actionBtns-menu__option" onClick={() => exportCsv()}>Csv</li>
+            </ul>
+        );
+
         return (
             <div className="LacTable">
-                <ul className="LacTable-nav">
-                    <li onClick={(btn) => changePage(btn, "cvlac")}
-                        className={`LacTable-nav__tab LacTable-nav__tab--${activeModule === "cvlac" ? "active" : "inactive"}`}>CvLac
-                    </li>
-                    <li onClick={(btn) => changePage(btn, "grouplac")}
-                        className={`LacTable-nav__tab LacTable-nav__tab--${activeModule === "grouplac" ? "active" : "inactive"}`}>GroupLac
-                    </li>
+                <div className="LacTable-nav">
+                    <button onClick={() => changePage( "cvlac")}
+                            className={`LacTable-nav__tab LacTable-nav__tab--${activeModule === "cvlac" ? "active" : "inactive"}`}>CvLac
+                    </button>
+                    <button onClick={() => changePage( "grouplac")}
+                            className={`LacTable-nav__tab LacTable-nav__tab--${activeModule === "grouplac" ? "active" : "inactive"}`}>GroupLac
+                    </button>
                     {/*<li onClick={(btn) => changePage(btn, "googleScholar")} className="LacTable-nav__tab LacTable-nav__tab--inactive">GoogleScholar*/}
                     {/*</li>*/}
-                </ul>
-                <div className={`LacTable-wrapper LacTable-wrapper--${this.props.teachers.loading ? "loading" : ""}`}>
+                </div>
+                <div
+                    className={`LacTable-wrapper LacTable-wrapper--${this.props[activeModule].loading ? "loading" : ""}`}>
                     <div className="LacTable-header">
                         <div>
                             <div className="LacTable-filterSlider">
-                                <Carousel {...carrouselSettings}>{slides}</Carousel>
+                                <Carousel {...carrouselSettings}>{carrouselSlides}</Carousel>
                             </div>
                         </div>
 
                         <div className="LacTable-actionBtns">
-                            {/*<button*/}
-                            {/*    className="LacTable-actionBtns__btn LacTable-actionBtns__btn--export icon-download">Exportar*/}
-                            {/*</button>*/}
+                            <button
+                                className="LacTable-actionBtns__btn" onClick={() => getAllInfo()}>Cargar TODOS
+                            </button>
+
+                            <Dropdown overlay={exportMenu} trigger={['click']}>
+                                <button
+                                    className="LacTable-actionBtns__btn LacTable-actionBtns__btn--export icon-download">Exportar
+                                </button>
+                            </Dropdown>
+
                             <Upload {...uploadBtnSettings}>
                                 <button
                                     className="LacTable-actionBtns__btn LacTable-actionBtns__btn--add icon-add">Añadir
@@ -220,9 +375,9 @@ class LacTable extends Component {
                     </div>
 
                     <div className="LacTable-table">
-                        <div><MaterialTable {...tableSettings}
-                            // icons={tableIcons}
-                        /></div>
+                        <div>
+                            <MaterialTable {...tableSettings}/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -233,20 +388,37 @@ class LacTable extends Component {
 
 const mapStateToProps = state => {
     return {
-        teachers: state.teachers,
+        cvlac: state.teachers,
+        grouplac: state.groups,
     }
-}
+};
 
 const mapDispatchToProps = dispatch => {
     return {
         resetTeachersData: () => dispatch(resetTeachersData()),
+        getTeacherInfo: (id) => dispatch(getTeacherInfo(id)),
         getTeacherBasicDetails: (id) => dispatch(getTeacherBasicDetails(id)),
         getTeacherArticles: (id) => dispatch(getTeacherArticles(id)),
         getTeacherBookChapters: (id) => dispatch(getTeacherBookChapters(id)),
+        getTeacherAwards: (id) => dispatch(getTeacherAwards(id)),
+        getTeacherEvents: (id) => dispatch(getTeacherEvents(id)),
+        getTeacherLanguages: (id) => dispatch(getTeacherLanguages(id)),
+        getTeacherBooks: (id) => dispatch(getTeacherBooks(id)),
+        getTeacherNetworks: (id) => dispatch(getTeacherNetworks(id)),
+        getTeacherSoftwares: (id) => dispatch(getTeacherSoftwares(id)),
+        getTeacherTitles: (id) => dispatch(getTeacherTitles(id)),
+        getTeacherJudges: (id) => dispatch(getTeacherJudges(id)),
+        getTeacherProjects: (id) => dispatch(getTeacherProjects(id)),
+        getTeacherCouplesEvaluators: (id) => dispatch(getTeacherCouplesEvaluators(id)),
+
+        resetGroupsData: () => dispatch(resetGroupsData()),
+        getGroupBasicDetails: (cod) => dispatch(getGroupBasicDetails(cod)),
+        getGroupInfo: (cod) => dispatch(getGroupInfo(cod)),
+
     }
-}
+};
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(LacTable)
+)(LacTable);

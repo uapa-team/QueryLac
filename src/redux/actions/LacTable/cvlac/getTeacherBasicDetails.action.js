@@ -2,7 +2,10 @@ export const getTeacherBasicDetails = (id) => {
     return async (dispatch, getState) => {
 
         dispatch(getTeacherBasicDetailsRequest());
-        const apiUrl = process.env.NODE_ENV === 'production' ? `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}/basicDetails` : `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}/basicDetails`;
+        const apiUrl =
+            process.env.NODE_ENV === 'production' ?
+                `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}/basicDetails` :
+                `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}/basicDetails`;
         const options = {
             method: 'GET',
             credentials: "same-origin",
@@ -18,7 +21,7 @@ export const getTeacherBasicDetails = (id) => {
             });
 
             const data = await response.json()
-            return dispatch(getTeacherBasicDetailsSuccess(data["basicDetails"], "basicDetails"));
+            return dispatch(getTeacherBasicDetailsSuccess(data["basicDetails"]));
 
         }catch(error){
             dispatch(getTeacherBasicDetailsFailure(error))
@@ -35,11 +38,10 @@ export const getTeacherBasicDetailsRequest = () => {
     }
 }
 
-export const getTeacherBasicDetailsSuccess = (messages, category) => {
+export const getTeacherBasicDetailsSuccess = (messages) => {
     return {
         type: 'GET_TEACHER_BASIC_DETAILS_SUCCESS',
         payload: messages,
-        category: category
     }
 }
 

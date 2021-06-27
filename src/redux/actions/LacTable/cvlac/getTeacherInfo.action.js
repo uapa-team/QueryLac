@@ -1,11 +1,11 @@
-export const getTeacherArticles = (id) => {
+export const getTeacherInfo = (id) => {
     return async (dispatch, getState) => {
 
-        dispatch(getTeacherArticlesRequest());
+        dispatch(getTeacherInfoRequest());
         const apiUrl =
             process.env.NODE_ENV === 'production' ?
-                `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}/articles` :
-                `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}/articles`;
+                `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}` :
+                `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}`;
         const options = {
             method: 'GET',
             credentials: "same-origin",
@@ -20,30 +20,30 @@ export const getTeacherArticles = (id) => {
                 return response;
             });
             const data = await response.json();
-            return dispatch(getTeacherArticlesSuccess(data['articles']));
+            return dispatch(getTeacherInfoSuccess(data));
         }catch(error){
-            dispatch(getTeacherArticlesFailure(error))
+            dispatch(getTeacherInfoFailure(error))
         }
     }
 }
 
 
-export const getTeacherArticlesRequest = () => {
+export const getTeacherInfoRequest = () => {
     return {
-        type: 'GET_TEACHER_ARTICLES_REQUEST',
+        type: 'GET_TEACHER_INFO_REQUEST',
     }
 }
 
-export const getTeacherArticlesSuccess = (messages) => {
+export const getTeacherInfoSuccess = (messages) => {
     return {
-        type: 'GET_TEACHER_ARTICLES_SUCCESS',
+        type: 'GET_TEACHER_INFO_SUCCESS',
         payload: messages,
     }
 }
 
-export const getTeacherArticlesFailure = error => {
+export const getTeacherInfoFailure = error => {
     return {
-        type: 'GET_TEACHER_ARTICLES_FAILURE',
+        type: 'GET_TEACHER_INFO_FAILURE',
         payload: error,
     }
 }

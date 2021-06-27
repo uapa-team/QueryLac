@@ -1,11 +1,11 @@
-export const getTeacherArticles = (id) => {
+export const getTeacherLanguages = (id) => {
     return async (dispatch, getState) => {
 
-        dispatch(getTeacherArticlesRequest());
+        dispatch(getTeacherLanguagesRequest());
         const apiUrl =
             process.env.NODE_ENV === 'production' ?
-                `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}/articles` :
-                `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}/articles`;
+                `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}/languages` :
+                `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}/languages`;
         const options = {
             method: 'GET',
             credentials: "same-origin",
@@ -20,30 +20,30 @@ export const getTeacherArticles = (id) => {
                 return response;
             });
             const data = await response.json();
-            return dispatch(getTeacherArticlesSuccess(data['articles']));
+            return dispatch(getTeacherLanguagesSuccess(data['languages']));
         }catch(error){
-            dispatch(getTeacherArticlesFailure(error))
+            dispatch(getTeacherLanguagesFailure(error))
         }
     }
 }
 
 
-export const getTeacherArticlesRequest = () => {
+export const getTeacherLanguagesRequest = () => {
     return {
-        type: 'GET_TEACHER_ARTICLES_REQUEST',
+        type: 'GET_TEACHER_LANGUAGES_REQUEST',
     }
 }
 
-export const getTeacherArticlesSuccess = (messages) => {
+export const getTeacherLanguagesSuccess = (messages) => {
     return {
-        type: 'GET_TEACHER_ARTICLES_SUCCESS',
+        type: 'GET_TEACHER_LANGUAGES_SUCCESS',
         payload: messages,
     }
 }
 
-export const getTeacherArticlesFailure = error => {
+export const getTeacherLanguagesFailure = error => {
     return {
-        type: 'GET_TEACHER_ARTICLES_FAILURE',
+        type: 'GET_TEACHER_LANGUAGES_FAILURE',
         payload: error,
     }
 }

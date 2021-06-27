@@ -1,7 +1,10 @@
+@import '../../styles/theme/mixin/responsive';
+
 .Home {
   display: flex;
   justify-content: center;
-  padding-top: 50px;
+  padding: 0 1rem;
+  padding-top: 3rem;
 }
 
 .hero {
@@ -9,12 +12,21 @@
   grid-gap: 1rem 0;
 
   &__title {
-    font-size: 36px;
+    font-size: 2.2rem;
     color: var(--primary);
+    line-height: 1;
+    @include md() {
+      line-height: initial;
+    }
   }
 
   &__subtitle {
-    font-size: 22px;
+    font-size: 1.5rem;
+    line-height: 1;
+    @include md() {
+      line-height: initial;
+    }
+
 
     span {
       color: var(--secondary);

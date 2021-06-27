@@ -1,11 +1,11 @@
-export const getTeacherArticles = (id) => {
+export const getGroupInfo = (cod) => {
     return async (dispatch, getState) => {
 
-        dispatch(getTeacherArticlesRequest());
+        dispatch(getGroupInfoRequest());
         const apiUrl =
             process.env.NODE_ENV === 'production' ?
-                `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}/articles` :
-                `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}/articles`;
+                `${process.env.REACT_APP_PROD_API_URL}/grouplac/group/${cod}` :
+                `${process.env.REACT_APP_DEV_API_URL}/grouplac/group/${cod}`;
         const options = {
             method: 'GET',
             credentials: "same-origin",
@@ -20,30 +20,30 @@ export const getTeacherArticles = (id) => {
                 return response;
             });
             const data = await response.json();
-            return dispatch(getTeacherArticlesSuccess(data['articles']));
+            return dispatch(getGroupInfoSuccess(data));
         }catch(error){
-            dispatch(getTeacherArticlesFailure(error))
+            dispatch(getGroupInfoFailure(error))
         }
     }
 }
 
 
-export const getTeacherArticlesRequest = () => {
+export const getGroupInfoRequest = () => {
     return {
-        type: 'GET_TEACHER_ARTICLES_REQUEST',
+        type: 'GET_GROUP_INFO_REQUEST',
     }
 }
 
-export const getTeacherArticlesSuccess = (messages) => {
+export const getGroupInfoSuccess = (messages) => {
     return {
-        type: 'GET_TEACHER_ARTICLES_SUCCESS',
+        type: 'GET_GROUP_INFO_SUCCESS',
         payload: messages,
     }
 }
 
-export const getTeacherArticlesFailure = error => {
+export const getGroupInfoFailure = error => {
     return {
-        type: 'GET_TEACHER_ARTICLES_FAILURE',
+        type: 'GET_GROUP_INFO_FAILURE',
         payload: error,
     }
 }
