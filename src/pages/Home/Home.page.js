@@ -11,8 +11,7 @@ class HomePage extends Component {
 
                     <div className="hero">
                         <h1 className="hero__title">Bienvenido a QueryLac</h1>
-                        <p className="hero__subtitle">Donde puedes consultar cualquiercosa-lac, pero todo es
-                            más <span>bonito</span></p>
+                        <p className="hero__subtitle">Donde puedes descargar información que reposa en la base de datos de <span>Minciencias</span> para documentar la productividad de la comunidad académica y de los grupos de investigación</p>
                     </div>
 
                     <LacTable/>
