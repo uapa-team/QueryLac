@@ -1,49 +1,37 @@
-export const getTeacherLanguages = (id) => {
+import {requestTeachersData} from '../../../utils/getTeachersData.utils';
+import {
+ GET_TEACHERS_LANGUAGES_REQUEST,
+ GET_TEACHERS_LANGUAGES_SUCCESS,
+ GET_TEACHERS_LANGUAGES_FAILURE,
+} from '../../../constants/LacTable/cvlac.actionTypes';
+
+export const getTeachersLanguages = (ids) => {
     return async (dispatch, getState) => {
-
-        dispatch(getTeacherLanguagesRequest());
-        const apiUrl =
-            process.env.NODE_ENV === 'production' ?
-                `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}/languages` :
-                `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}/languages`;
-        const options = {
-            method: 'GET',
-            credentials: "same-origin",
-            headers: {
-                'Accept': 'application/json',
-            },
-        };
-
-        try {
-            const response = await fetch(apiUrl, options).then(response => {
-                if (!response.ok) throw Error(response.status);
-                return response;
-            });
-            const data = await response.json();
-            return dispatch(getTeacherLanguagesSuccess(data['languages']));
-        }catch(error){
-            dispatch(getTeacherLanguagesFailure(error))
-        }
+        dispatch(getTeachersLanguagesRequest());
+        const data = await requestTeachersData(ids, "languages").catch(e => {
+            dispatch(getTeachersLanguagesFailure(e));
+        });
+        return dispatch(getTeachersLanguagesSuccess(data));
     }
 }
 
 
-export const getTeacherLanguagesRequest = () => {
+export const getTeachersLanguagesRequest = () => {
     return {
-        type: 'GET_TEACHER_LANGUAGES_REQUEST',
+        type: GET_TEACHERS_LANGUAGES_REQUEST,
     }
 }
 
-export const getTeacherLanguagesSuccess = (messages) => {
+export const getTeachersLanguagesSuccess = (messages) => {
     return {
-        type: 'GET_TEACHER_LANGUAGES_SUCCESS',
+        type: GET_TEACHERS_LANGUAGES_SUCCESS,
         payload: messages,
     }
 }
 
-export const getTeacherLanguagesFailure = error => {
+export const getTeachersLanguagesFailure = error => {
     return {
-        type: 'GET_TEACHER_LANGUAGES_FAILURE',
+        type: GET_TEACHERS_LANGUAGES_FAILURE,
         payload: error,
     }
 }

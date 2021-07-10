@@ -1,49 +1,36 @@
-export const getTeacherTitles = (id) => {
+import {requestTeachersData} from '../../../utils/getTeachersData.utils';
+import {
+ GET_TEACHERS_TITLES_REQUEST,
+ GET_TEACHERS_TITLES_SUCCESS,
+ GET_TEACHERS_TITLES_FAILURE,
+} from '../../../constants/LacTable/cvlac.actionTypes';
+
+export const getTeachersTitles = (ids) => {
     return async (dispatch, getState) => {
-
-        dispatch(getTeacherTitlesRequest());
-        const apiUrl =
-            process.env.NODE_ENV === 'production' ?
-                `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}/titles` :
-                `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}/titles`;
-        const options = {
-            method: 'GET',
-            credentials: "same-origin",
-            headers: {
-                'Accept': 'application/json',
-            },
-        };
-
-        try {
-            const response = await fetch(apiUrl, options).then(response => {
-                if (!response.ok) throw Error(response.status);
-                return response;
-            });
-            const data = await response.json();
-            return dispatch(getTeacherTitlesSuccess(data['titles']));
-        }catch(error){
-            dispatch(getTeacherTitlesFailure(error))
-        }
+        dispatch(getTeachersTitlesRequest());
+        const data = await requestTeachersData(ids, "titles").catch(e => {
+            dispatch(getTeachersTitlesFailure(e));
+        });
+        return dispatch(getTeacherTitlesSuccess(data));
     }
 }
 
-
-export const getTeacherTitlesRequest = () => {
+export const getTeachersTitlesRequest = () => {
     return {
-        type: 'GET_TEACHER_TITLES_REQUEST',
+        type: GET_TEACHERS_TITLES_REQUEST,
     }
 }
 
-export const getTeacherTitlesSuccess = (messages) => {
+export const getTeacherTitlesSuccess = (titles) => {
     return {
-        type: 'GET_TEACHER_TITLES_SUCCESS',
-        payload: messages,
+        type: GET_TEACHERS_TITLES_SUCCESS,
+        payload: titles,
     }
 }
 
-export const getTeacherTitlesFailure = error => {
+export const getTeachersTitlesFailure = error => {
     return {
-        type: 'GET_TEACHER_TITLES_FAILURE',
+        type: GET_TEACHERS_TITLES_FAILURE,
         payload: error,
     }
 }

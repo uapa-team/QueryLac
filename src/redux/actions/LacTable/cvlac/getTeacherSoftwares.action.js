@@ -1,49 +1,38 @@
-export const getTeacherSoftwares = (id) => {
+import {requestTeachersData} from '../../../utils/getTeachersData.utils';
+import {
+ GET_TEACHERS_SOFTWARES_REQUEST,
+ GET_TEACHERS_SOFTWARES_SUCCESS,
+ GET_TEACHERS_SOFTWARES_FAILURE,
+} from '../../../constants/LacTable/cvlac.actionTypes';
+
+export const getTeachersSoftwares = (ids) => {
     return async (dispatch, getState) => {
-
-        dispatch(getTeacherSoftwaresRequest());
-        const apiUrl =
-            process.env.NODE_ENV === 'production' ?
-                `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}/softwares` :
-                `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}/softwares`;
-        const options = {
-            method: 'GET',
-            credentials: "same-origin",
-            headers: {
-                'Accept': 'application/json',
-            },
-        };
-
-        try {
-            const response = await fetch(apiUrl, options).then(response => {
-                if (!response.ok) throw Error(response.status);
-                return response;
-            });
-            const data = await response.json();
-            return dispatch(getTeacherSoftwaresSuccess(data['softwares']));
-        }catch(error){
-            dispatch(getTeacherSoftwaresFailure(error))
-        }
+        dispatch(getTeachersSoftwaresRequest());
+        const data = await requestTeachersData(ids, "softwares").catch(e => {
+            dispatch(getTeachersSoftwaresFailure(e));
+        });
+        return dispatch(getTeachersSoftwaresSuccess(data));
     }
 }
 
 
-export const getTeacherSoftwaresRequest = () => {
+
+export const getTeachersSoftwaresRequest = () => {
     return {
-        type: 'GET_TEACHER_SOFTWARES_REQUEST',
+        type: GET_TEACHERS_SOFTWARES_REQUEST,
     }
 }
 
-export const getTeacherSoftwaresSuccess = (messages) => {
+export const getTeachersSoftwaresSuccess = (softwares) => {
     return {
-        type: 'GET_TEACHER_SOFTWARES_SUCCESS',
-        payload: messages,
+        type: GET_TEACHERS_SOFTWARES_SUCCESS,
+        payload: softwares,
     }
 }
 
-export const getTeacherSoftwaresFailure = error => {
+export const getTeachersSoftwaresFailure = error => {
     return {
-        type: 'GET_TEACHER_SOFTWARES_FAILURE',
+        type: GET_TEACHERS_SOFTWARES_FAILURE,
         payload: error,
     }
 }

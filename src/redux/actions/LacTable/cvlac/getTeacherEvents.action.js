@@ -1,49 +1,37 @@
-export const getTeacherEvents = (id) => {
+import {requestTeachersData} from '../../../utils/getTeachersData.utils';
+import {
+ GET_TEACHERS_EVENTS_REQUEST,
+ GET_TEACHERS_EVENTS_SUCCESS,
+ GET_TEACHERS_EVENTS_FAILURE,
+} from '../../../constants/LacTable/cvlac.actionTypes';
+
+export const getTeacherEvents = (ids) => {
     return async (dispatch, getState) => {
-
-        dispatch(getTeacherEventsRequest());
-        const apiUrl =
-            process.env.NODE_ENV === 'production' ?
-                `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}/events` :
-                `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}/events`;
-        const options = {
-            method: 'GET',
-            credentials: "same-origin",
-            headers: {
-                'Accept': 'application/json',
-            },
-        };
-
-        try {
-            const response = await fetch(apiUrl, options).then(response => {
-                if (!response.ok) throw Error(response.status);
-                return response;
-            });
-            const data = await response.json();
-            return dispatch(getTeacherEventsSuccess(data['events']));
-        }catch(error){
-            dispatch(getTeacherEventsFailure(error))
-        }
+        dispatch(getTeachersEventsRequest());
+        const data = await requestTeachersData(ids, "events").catch(e => {
+            dispatch(getTeachersEventsFailure(e));
+        });
+        return dispatch(getTeachersEventsSuccess(data));
     }
 }
 
 
-export const getTeacherEventsRequest = () => {
+export const getTeachersEventsRequest = () => {
     return {
-        type: 'GET_TEACHER_EVENTS_REQUEST',
+        type: GET_TEACHERS_EVENTS_REQUEST,
     }
 }
 
-export const getTeacherEventsSuccess = (messages) => {
+export const getTeachersEventsSuccess = (messages) => {
     return {
-        type: 'GET_TEACHER_EVENTS_SUCCESS',
+        type: GET_TEACHERS_EVENTS_SUCCESS,
         payload: messages,
     }
 }
 
-export const getTeacherEventsFailure = error => {
+export const getTeachersEventsFailure = error => {
     return {
-        type: 'GET_TEACHER_EVENTS_FAILURE',
+        type: GET_TEACHERS_EVENTS_FAILURE,
         payload: error,
     }
 }

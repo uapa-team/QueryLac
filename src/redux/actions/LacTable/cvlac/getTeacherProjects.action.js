@@ -1,49 +1,37 @@
-export const getTeacherProjects = (id) => {
+import {requestTeachersData} from '../../../utils/getTeachersData.utils';
+import {
+ GET_TEACHERS_PROJECTS_REQUEST,
+ GET_TEACHERS_PROJECTS_SUCCESS,
+ GET_TEACHERS_PROJECTS_FAILURE,
+} from '../../../constants/LacTable/cvlac.actionTypes';
+
+export const getTeachersProjects = (ids) => {
     return async (dispatch, getState) => {
-
-        dispatch(getTeacherProjectsRequest());
-        const apiUrl =
-            process.env.NODE_ENV === 'production' ?
-                `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}/projects` :
-                `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}/projects`;
-        const options = {
-            method: 'GET',
-            credentials: "same-origin",
-            headers: {
-                'Accept': 'application/json',
-            },
-        };
-
-        try {
-            const response = await fetch(apiUrl, options).then(response => {
-                if (!response.ok) throw Error(response.status);
-                return response;
-            });
-            const data = await response.json();
-            return dispatch(getTeacherProjectsSuccess(data['projects']));
-        }catch(error){
-            dispatch(getTeacherProjectsFailure(error))
-        }
+        dispatch(getTeachersProjectsRequest());
+        const data = await requestTeachersData(ids, "proyects").catch(e => {
+            dispatch(getTeachersProjectsFailure(e));
+        });
+        return dispatch(getTeachersProjectsSuccess(data));
     }
 }
 
 
-export const getTeacherProjectsRequest = () => {
+export const getTeachersProjectsRequest = () => {
     return {
-        type: 'GET_TEACHER_PROJECTS_REQUEST',
+        type: GET_TEACHERS_PROJECTS_REQUEST,
     }
 }
 
-export const getTeacherProjectsSuccess = (messages) => {
+export const getTeachersProjectsSuccess = (proyects) => {
     return {
-        type: 'GET_TEACHER_PROJECTS_SUCCESS',
-        payload: messages,
+        type: GET_TEACHERS_PROJECTS_SUCCESS,
+        payload: proyects,
     }
 }
 
-export const getTeacherProjectsFailure = error => {
+export const getTeachersProjectsFailure = error => {
     return {
-        type: 'GET_TEACHER_PROJECTS_FAILURE',
+        type: GET_TEACHERS_PROJECTS_FAILURE,
         payload: error,
     }
 }

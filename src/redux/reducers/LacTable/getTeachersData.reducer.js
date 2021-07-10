@@ -1,3 +1,49 @@
+import {
+    RESET_TEACHERS_DATA,
+    GET_TEACHERS_INFO_REQUEST,
+    GET_TEACHERS_INFO_SUCCESS,
+    GET_TEACHERS_INFO_FAILURE,
+    GET_TEACHER_BASIC_DETAILS_REQUEST,
+    GET_TEACHER_BASIC_DETAILS_SUCCESS,
+    GET_TEACHER_BASIC_DETAILS_FAILURE,
+    GET_TEACHERS_ARTICLES_REQUEST,
+    GET_TEACHERS_ARTICLES_SUCCESS,
+    GET_TEACHERS_ARTICLES_FAILURE,
+    GET_TEACHERS_BOOK_CHAPTERS_REQUEST,
+    GET_TEACHERS_BOOK_CHAPTERS_SUCCESS,
+    GET_TEACHERS_BOOK_CHAPTERS_FAILURE,
+    GET_TEACHERS_AWARDS_REQUEST,
+    GET_TEACHERS_AWARDS_SUCCESS,
+    GET_TEACHERS_AWARDS_FAILURE,
+    GET_TEACHERS_EVENTS_REQUEST,
+    GET_TEACHERS_EVENTS_SUCCESS,
+    GET_TEACHERS_EVENTS_FAILURE,
+    GET_TEACHERS_LANGUAGES_REQUEST,
+    GET_TEACHERS_LANGUAGES_SUCCESS,
+    GET_TEACHERS_LANGUAGES_FAILURE,
+    GET_TEACHERS_BOOKS_REQUEST,
+    GET_TEACHERS_BOOKS_SUCCESS,
+    GET_TEACHERS_BOOKS_FAILURE,
+    GET_TEACHERS_NETWORKS_REQUEST,
+    GET_TEACHERS_NETWORKS_SUCCESS,
+    GET_TEACHERS_NETWORKS_FAILURE,
+    GET_TEACHERS_SOFTWARES_REQUEST,
+    GET_TEACHERS_SOFTWARES_SUCCESS,
+    GET_TEACHERS_SOFTWARES_FAILURE,
+    GET_TEACHERS_TITLES_REQUEST,
+    GET_TEACHERS_TITLES_SUCCESS,
+    GET_TEACHERS_TITLES_FAILURE,
+    GET_TEACHERS_JUDGES_REQUEST,
+    GET_TEACHERS_JUDGES_SUCCESS,
+    GET_TEACHERS_JUDGES_FAILURE,
+    GET_TEACHERS_PROJECTS_REQUEST,
+    GET_TEACHERS_PROJECTS_SUCCESS,
+    GET_TEACHERS_PROJECTS_FAILURE,
+    GET_TEACHERS_COUPLES_EVALUATORS_REQUEST,
+    GET_TEACHERS_COUPLES_EVALUATORS_SUCCESS,
+    GET_TEACHERS_COUPLES_EVALUATORS_FAILURE,
+} from "../../constants/LacTable/cvlac.actionTypes"
+
 const initialState = {
     data: {
         basicDetails: [],
@@ -21,12 +67,12 @@ const initialState = {
 const reducer = (state = initialState, {type, payload}) => {
     switch (type) {
 
-        case 'RESET_TEACHERS_DATA':
+        case RESET_TEACHERS_DATA:
             return initialState;
-        case 'GET_TEACHER_INFO_REQUEST':
+        case GET_TEACHERS_INFO_REQUEST:
             return {...state, loading: true, error: null};
 
-        case 'GET_TEACHER_INFO_SUCCESS':
+        case GET_TEACHERS_INFO_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -48,15 +94,15 @@ const reducer = (state = initialState, {type, payload}) => {
                 }
             };
 
-        case 'GET_TEACHER_INFO_FAILURE':
+        case GET_TEACHERS_INFO_FAILURE:
             return {...state, loading: false, error: payload};
 
         default:
             return state;
 
-        case 'GET_TEACHER_BASIC_DETAILS_REQUEST':
+        case GET_TEACHER_BASIC_DETAILS_REQUEST:
             return {...state, loading: true, error: null};
-        case 'GET_TEACHER_BASIC_DETAILS_SUCCESS':
+        case GET_TEACHER_BASIC_DETAILS_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -65,188 +111,188 @@ const reducer = (state = initialState, {type, payload}) => {
                     basicDetails: [...state.data.basicDetails, payload]
                 }
             };
-        case 'GET_TEACHER_BASIC_DETAILS_FAILURE':
+        case GET_TEACHER_BASIC_DETAILS_FAILURE:
             return {...state, loading: false, error: payload};
 
-        case 'GET_TEACHER_ARTICLES_REQUEST':
+        case GET_TEACHERS_ARTICLES_REQUEST:
             return {...state, loading: true, error: null};
 
-        case 'GET_TEACHER_ARTICLES_SUCCESS':
+        case GET_TEACHERS_ARTICLES_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 data: {
                     ...state.data,
-                    articles: [...state.data.articles, ...payload]
+                    articles: [...state.data.articles, ...payload['articles']]
                 }
             };
-        case 'GET_TEACHER_ARTICLES_FAILURE':
+        case GET_TEACHERS_ARTICLES_FAILURE:
             return {...state, loading: false, error: payload};
 
-        case 'GET_TEACHER_BOOK_CHAPTERS_REQUEST':
+        case GET_TEACHERS_BOOK_CHAPTERS_REQUEST:
             return {...state, loading: true, error: null};
 
-        case 'GET_TEACHER_BOOK_CHAPTERS_SUCCESS':
+        case GET_TEACHERS_BOOK_CHAPTERS_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 data: {
                     ...state.data,
-                    articles: [...state.data.articles, ...payload]
+                    bookChapters: [...state.data.bookChapters, ...payload['bookChapters']]
                 }
             };
-        case 'GET_TEACHER_BOOK_CHAPTERS_FAILURE':
+        case GET_TEACHERS_BOOK_CHAPTERS_FAILURE:
             return {...state, loading: false, error: payload};
 
-        case 'GET_TEACHER_AWARDS_REQUEST':
+        case GET_TEACHERS_AWARDS_REQUEST:
             return {...state, loading: true, error: null};
 
-        case 'GET_TEACHER_AWARDS_SUCCESS':
+        case GET_TEACHERS_AWARDS_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 data: {
                     ...state.data,
-                    awards: [...state.data.awards, ...payload]
+                    awards: [...state.data.awards, ...payload['awards']]
                 }
             };
-        case 'GET_TEACHER_AWARDS_FAILURE':
+        case GET_TEACHERS_AWARDS_FAILURE:
             return {...state, loading: false, error: payload};
 
-        case 'GET_TEACHER_EVENTS_REQUEST':
+        case GET_TEACHERS_EVENTS_REQUEST:
             return {...state, loading: true, error: null};
 
-        case 'GET_TEACHER_EVENTS_SUCCESS':
+        case GET_TEACHERS_EVENTS_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 data: {
                     ...state.data,
-                    events: [...state.data.events, ...payload]
+                    events: [...state.data.events, ...payload['events']]
                 }
             };
-        case 'GET_TEACHER_EVENTS_FAILURE':
+        case GET_TEACHERS_EVENTS_FAILURE:
             return {...state, loading: false, error: payload};
 
-        case 'GET_TEACHER_LANGUAGES_REQUEST':
+        case GET_TEACHERS_LANGUAGES_REQUEST:
             return {...state, loading: true, error: null};
 
-        case 'GET_TEACHER_LANGUAGES_SUCCESS':
+        case GET_TEACHERS_LANGUAGES_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 data: {
                     ...state.data,
-                    languages: [...state.data.languages, ...payload]
+                    languages: [...state.data.languages, ...payload['languages']]
                 }
             };
-        case 'GET_TEACHER_LANGUAGES_FAILURE':
+        case GET_TEACHERS_LANGUAGES_FAILURE:
             return {...state, loading: false, error: payload};
 
-        case 'GET_TEACHER_BOOKS_REQUEST':
+        case GET_TEACHERS_BOOKS_REQUEST:
             return {...state, loading: true, error: null};
 
-        case 'GET_TEACHER_BOOKS_SUCCESS':
+        case GET_TEACHERS_BOOKS_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 data: {
                     ...state.data,
-                    books: [...state.data.books, ...payload]
+                    books: [...state.data.books, ...payload['books']]
                 }
             };
-        case 'GET_TEACHER_BOOKS_FAILURE':
+        case GET_TEACHERS_BOOKS_FAILURE:
             return {...state, loading: false, error: payload};
 
-        case 'GET_TEACHER_NETWORKS_REQUEST':
+        case GET_TEACHERS_NETWORKS_REQUEST:
             return {...state, loading: true, error: null};
 
-        case 'GET_TEACHER_NETWORKS_SUCCESS':
+        case GET_TEACHERS_NETWORKS_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 data: {
                     ...state.data,
-                    networks: [...state.data.networks, ...payload]
+                    networks: [...state.data.networks, ...payload['networks']]
                 }
             };
-        case 'GET_TEACHER_NETWORKS_FAILURE':
+        case GET_TEACHERS_NETWORKS_FAILURE:
             return {...state, loading: false, error: payload};
 
-        case 'GET_TEACHER_SOFTWARES_REQUEST':
+        case GET_TEACHERS_SOFTWARES_REQUEST:
             return {...state, loading: true, error: null};
 
-        case 'GET_TEACHER_SOFTWARES_SUCCESS':
+        case GET_TEACHERS_SOFTWARES_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 data: {
                     ...state.data,
-                    softwares: [...state.data.softwares, ...payload]
+                    softwares: [...state.data.softwares, ...payload['softwares']]
                 }
             };
-        case 'GET_TEACHER_SOFTWARES_FAILURE':
+        case GET_TEACHERS_SOFTWARES_FAILURE:
             return {...state, loading: false, error: payload};
 
-        case 'GET_TEACHER_TITLES_REQUEST':
+        case GET_TEACHERS_TITLES_REQUEST:
             return {...state, loading: true, error: null};
 
-        case 'GET_TEACHER_TITLES_SUCCESS':
+        case GET_TEACHERS_TITLES_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 data: {
                     ...state.data,
-                    softwares: [...state.data.softwares, ...payload]
+                    titlesd: [...state.data.titlesd, ...payload['titlesd']]
                 }
             };
-        case 'GET_TEACHER_TITLES_FAILURE':
+        case GET_TEACHERS_TITLES_FAILURE:
             return {...state, loading: false, error: payload};
 
 
-        case 'GET_TEACHER_JUDGES_REQUEST':
+        case GET_TEACHERS_JUDGES_REQUEST:
             return {...state, loading: true, error: null};
 
-        case 'GET_TEACHER_JUDGES_SUCCESS':
+        case GET_TEACHERS_JUDGES_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 data: {
                     ...state.data,
-                    softwares: [...state.data.softwares, ...payload]
+                    judges: [...state.data.judges, ...payload['judges']]
                 }
             };
-        case 'GET_TEACHER_JUDGES_FAILURE':
+        case GET_TEACHERS_JUDGES_FAILURE:
             return {...state, loading: false, error: payload};
 
-        case 'GET_TEACHER_PROJECTS_REQUEST':
+        case GET_TEACHERS_PROJECTS_REQUEST:
             return {...state, loading: true, error: null};
 
-        case 'GET_TEACHER_PROJECTS_SUCCESS':
+        case GET_TEACHERS_PROJECTS_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 data: {
                     ...state.data,
-                    softwares: [...state.data.softwares, ...payload]
+                    projects: [...state.data.projects, ...payload['projects']]
                 }
             };
-        case 'GET_TEACHER_PROJECTS_FAILURE':
+        case GET_TEACHERS_PROJECTS_FAILURE:
             return {...state, loading: false, error: payload};
 
-        case 'GET_TEACHER_COUPLES_EVALUATORS_REQUEST':
+        case GET_TEACHERS_COUPLES_EVALUATORS_REQUEST:
             return {...state, loading: true, error: null};
 
-        case 'GET_TEACHER_COUPLES_EVALUATORS_SUCCESS':
+        case GET_TEACHERS_COUPLES_EVALUATORS_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 data: {
                     ...state.data,
-                    softwares: [...state.data.softwares, ...payload]
+                    couplesEvaluators: [...state.data.couplesEvaluators, ...payload['couplesEvaluators']]
                 }
             };
-        case 'GET_TEACHER_COUPLES_EVALUATORS_FAILURE':
+        case GET_TEACHERS_COUPLES_EVALUATORS_FAILURE:
             return {...state, loading: false, error: payload};
 
     }

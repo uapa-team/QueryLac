@@ -11,20 +11,20 @@ import './LacTable.scss';
 //Redux
 import {connect} from "react-redux";
 import {getTeacherBasicDetails} from "../../redux/actions/LacTable/cvlac/getTeacherBasicDetails.action";
-import {getTeacherArticles} from "../../redux/actions/LacTable/cvlac/getTeacherArticles.action";
-import {getTeacherBookChapters} from "../../redux/actions/LacTable/cvlac/getTeacherBookChapters.action";
+import {getTeachersArticles} from "../../redux/actions/LacTable/cvlac/getTeacherArticles.action";
+import {getTeachersBookChapters} from "../../redux/actions/LacTable/cvlac/getTeacherBookChapters.action";
 import {resetTeachersData} from "../../redux/actions/LacTable/cvlac/resetTeachersData.action";
-import {getTeacherInfo} from "../../redux/actions/LacTable/cvlac/getTeacherInfo.action";
-import {getTeacherAwards} from "../../redux/actions/LacTable/cvlac/getTeacherAwards.action";
+import {getTeachersInfo} from "../../redux/actions/LacTable/cvlac/getTeachersInfo.action";
+import {getTeachersAwards} from "../../redux/actions/LacTable/cvlac/getTeacherAwards.action";
 import {getTeacherEvents} from "../../redux/actions/LacTable/cvlac/getTeacherEvents.action";
-import {getTeacherLanguages} from "../../redux/actions/LacTable/cvlac/getTeacherLanguages.action";
-import {getTeacherBooks} from "../../redux/actions/LacTable/cvlac/getTeacherBooks.action";
-import {getTeacherNetworks} from "../../redux/actions/LacTable/cvlac/getTeacherNetworks.action";
-import {getTeacherSoftwares} from "../../redux/actions/LacTable/cvlac/getTeacherSoftwares.action";
-import {getTeacherTitles} from "../../redux/actions/LacTable/cvlac/getTeacherTitles.action";
-import {getTeacherJudges} from "../../redux/actions/LacTable/cvlac/getTeacherJudges.action";
-import {getTeacherProjects} from "../../redux/actions/LacTable/cvlac/getTeacherProjects.action";
-import {getTeacherCouplesEvaluators} from "../../redux/actions/LacTable/cvlac/getTeacherCouplesEvaluators.action";
+import {getTeachersLanguages} from "../../redux/actions/LacTable/cvlac/getTeacherLanguages.action";
+import {getTeachersBooks} from "../../redux/actions/LacTable/cvlac/getTeacherBooks.action";
+import {getTeachersNetworks} from "../../redux/actions/LacTable/cvlac/getTeacherNetworks.action";
+import {getTeachersSoftwares} from "../../redux/actions/LacTable/cvlac/getTeacherSoftwares.action";
+import {getTeachersTitles} from "../../redux/actions/LacTable/cvlac/getTeacherTitles.action";
+import {getTeachersJudges} from "../../redux/actions/LacTable/cvlac/getTeacherJudges.action";
+import {getTeachersProjects} from "../../redux/actions/LacTable/cvlac/getTeacherProjects.action";
+import {getTeachersCouplesEvaluators} from "../../redux/actions/LacTable/cvlac/getTeacherCouplesEvaluators.action";
 import {getGroupInfo} from "../../redux/actions/LacTable/grouplac/getGroupInfo.action";
 import {resetGroupsData} from "../../redux/actions/LacTable/grouplac/resetGroupsData.action";
 import {getGroupBasicDetails} from "../../redux/actions/LacTable/grouplac/getGroupBasicDetails.action";
@@ -81,7 +81,7 @@ class LacTable extends Component {
         let requestMethod;
         switch (activeModule) {
             case 'cvlac':
-                requestMethod = 'getTeacherInfo';
+                requestMethod = 'getTeachersInfo';
                 break;
             case 'grouplac':
                 requestMethod = 'getGroupInfo';
@@ -90,9 +90,7 @@ class LacTable extends Component {
                 return
         }
 
-        for (let i = 0; i < dataToRequest.length; i++) {
-            await this.props[requestMethod](dataToRequest[i]);
-        }
+        await this.props[requestMethod](dataToRequest);
     }
 
     changePage = (module) => {
@@ -126,7 +124,7 @@ class LacTable extends Component {
         switch (activeModule) {
             case 'cvlac':
                 //Example: if category is "basicDetails" then requestMethod would be "getTeacherBasicDetails";
-                requestMethod = `getTeacher${capitalizeFirstLetter(category)}`;
+                requestMethod = `getTeachers${capitalizeFirstLetter(category)}`;
                 //Not request again if the info is already requested.
                 if (this.props[activeModule].data[category].length > 0) return;
                 break;
@@ -144,9 +142,7 @@ class LacTable extends Component {
                 return
         }
 
-        for (let i = 0; i < dataToRequest.length; i++) {
-            await this.props[requestMethod](dataToRequest[i]);
-        }
+        await this.props[requestMethod](dataToRequest);
 
     };
 
@@ -245,7 +241,7 @@ class LacTable extends Component {
 
                     switch (activeModule) {
                         case 'cvlac':
-                            requestMethod = "getTeacherBasicDetails";
+                            requestMethod = "getTeachersBasicDetails";
                             break;
                         case 'grouplac':
                             requestMethod = "getGroupBasicDetails";
@@ -396,20 +392,20 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         resetTeachersData: () => dispatch(resetTeachersData()),
-        getTeacherInfo: (id) => dispatch(getTeacherInfo(id)),
-        getTeacherBasicDetails: (id) => dispatch(getTeacherBasicDetails(id)),
-        getTeacherArticles: (id) => dispatch(getTeacherArticles(id)),
-        getTeacherBookChapters: (id) => dispatch(getTeacherBookChapters(id)),
-        getTeacherAwards: (id) => dispatch(getTeacherAwards(id)),
-        getTeacherEvents: (id) => dispatch(getTeacherEvents(id)),
-        getTeacherLanguages: (id) => dispatch(getTeacherLanguages(id)),
-        getTeacherBooks: (id) => dispatch(getTeacherBooks(id)),
-        getTeacherNetworks: (id) => dispatch(getTeacherNetworks(id)),
-        getTeacherSoftwares: (id) => dispatch(getTeacherSoftwares(id)),
-        getTeacherTitles: (id) => dispatch(getTeacherTitles(id)),
-        getTeacherJudges: (id) => dispatch(getTeacherJudges(id)),
-        getTeacherProjects: (id) => dispatch(getTeacherProjects(id)),
-        getTeacherCouplesEvaluators: (id) => dispatch(getTeacherCouplesEvaluators(id)),
+        getTeachersInfo: (ids) => dispatch(getTeachersInfo(ids)),
+        getTeachersBasicDetails: (ids) => dispatch(getTeacherBasicDetails(ids)),
+        getTeachersArticles: (ids) => dispatch(getTeachersArticles(ids)),
+        getTeachersBookChapters: (ids) => dispatch(getTeachersBookChapters(ids)),
+        getTeachersAwards: (ids) => dispatch(getTeachersAwards(ids)),
+        getTeachersEvents: (ids) => dispatch(getTeacherEvents(ids)),
+        getTeachersLanguages: (ids) => dispatch(getTeachersLanguages(ids)),
+        getTeachersBooks: (ids) => dispatch(getTeachersBooks(ids)),
+        getTeachersNetworks: (ids) => dispatch(getTeachersNetworks(ids)),
+        getTeachersSoftwares: (ids) => dispatch(getTeachersSoftwares(ids)),
+        getTeachersTitles: (ids) => dispatch(getTeachersTitles(ids)),
+        getTeachersJudges: (ids) => dispatch(getTeachersJudges(ids)),
+        getTeachersProjects: (ids) => dispatch(getTeachersProjects(ids)),
+        getTeachersCouplesEvaluators: (ids) => dispatch(getTeachersCouplesEvaluators(ids)),
 
         resetGroupsData: () => dispatch(resetGroupsData()),
         getGroupBasicDetails: (cod) => dispatch(getGroupBasicDetails(cod)),

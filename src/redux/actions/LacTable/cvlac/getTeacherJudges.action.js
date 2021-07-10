@@ -1,49 +1,37 @@
-export const getTeacherJudges = (id) => {
+import {requestTeachersData} from '../../../utils/getTeachersData.utils';
+import {
+ GET_TEACHERS_JUDGES_REQUEST,
+ GET_TEACHERS_JUDGES_SUCCESS,
+ GET_TEACHERS_JUDGES_FAILURE,
+} from '../../../constants/LacTable/cvlac.actionTypes';
+
+export const getTeachersJudges = (ids) => {
     return async (dispatch, getState) => {
-
-        dispatch(getTeacherJudgesRequest());
-        const apiUrl =
-            process.env.NODE_ENV === 'production' ?
-                `${process.env.REACT_APP_PROD_API_URL}/cvlac/teacher/${id}/judges` :
-                `${process.env.REACT_APP_DEV_API_URL}/cvlac/teacher/${id}/judges`;
-        const options = {
-            method: 'GET',
-            credentials: "same-origin",
-            headers: {
-                'Accept': 'application/json',
-            },
-        };
-
-        try {
-            const response = await fetch(apiUrl, options).then(response => {
-                if (!response.ok) throw Error(response.status);
-                return response;
-            });
-            const data = await response.json();
-            return dispatch(getTeacherJudgesSuccess(data['judges']));
-        }catch(error){
-            dispatch(getTeacherJudgesFailure(error))
-        }
+        dispatch(getTeachersJudgesRequest());
+        const data = await requestTeachersData(ids, "judges").catch(e => {
+            dispatch(getTeachersJudgesFailure(e));
+        });
+        return dispatch(getTeachersJudgesSuccess(data));
     }
 }
 
 
-export const getTeacherJudgesRequest = () => {
+export const getTeachersJudgesRequest = () => {
     return {
-        type: 'GET_TEACHER_JUDGES_REQUEST',
+        type: GET_TEACHERS_JUDGES_REQUEST,
     }
 }
 
-export const getTeacherJudgesSuccess = (messages) => {
+export const getTeachersJudgesSuccess = (messages) => {
     return {
-        type: 'GET_TEACHER_JUDGES_SUCCESS',
+        type: GET_TEACHERS_JUDGES_SUCCESS,
         payload: messages,
     }
 }
 
-export const getTeacherJudgesFailure = error => {
+export const getTeachersJudgesFailure = error => {
     return {
-        type: 'GET_TEACHER_JUDGES_FAILURE',
+        type: GET_TEACHERS_JUDGES_FAILURE,
         payload: error,
     }
 }
