@@ -1,70 +1,75 @@
-# Getting Started with Create React ChatPage
+# QueryLac Frontend
 
-This project was bootstrapped with [Create React ChatPage](https://github.com/facebook/create-react-app).
+Una linda app hecha en React/Redux para obtener información de profesores de la página
+web https://scienti.minciencias.gov.co/cvlac y de grupos de investigación https://scienti.minciencias.gov.co/gruplac. 
 
-## Available Scripts
+## Instalación
 
-In the project directory, you can run:
+Primero clona el repositorio localmente:
 
-### `npm start`
+```bash
+git clone https://github.com/uapa-team/querylac-frontend.git
+cd querylac-api/
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Luego instala los paquetes necesarios:
+> **_NOTA:_** Este proyecto se hizo con la versión [13.14.0 de node](https://nodejs.org/es/).
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```bash
+npm install
+```
 
-### `npm test`
+Iniciar el proyecto localmente:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+node npm run serve
+```
 
-### `npm run build`
+Mostrar los errores en consola:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+node npm run lint
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Iniciar el proyecto para producción 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+node npm run start
+```
 
-### `npm run eject`
+## Lista de enpoints
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### CvLac
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  El enpoint principal es /api/cvlac/teacher/:dni
+  Ejemplo: /api/cvlac/teacher/79523926/articles
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+  Propiedad                        | Modificación
+  ------------------               | -------------
+  TODO                             | /
+  Detalles básicos                 | /basicDetails
+  Artículos                        | /articles
+  Capítulos de libro               | /bookChapters
+  Distinciones                     | /awards
+  Eventos                          | /events
+  Idioma                           | /languages
+  Libros                           | /books
+  Redes                            | /networks
+  Software                         | /softwares
+  Formación Académica              | /titles
+  Jurados en comite de evaluación  | /judges
+  Proyectos                        | /projects
+  Par evaluador                    | /couplesEvaluators
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### GroupLac
 
-## Learn More
+  El enpoint principal es /api/groupLac/group/:cod
+  Ejemplo: /api/groupLac/group/COL0066893/institutions
 
-You can learn more in the [Create React ChatPage documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web ChatPage
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  Propiedad                        | Modificación
+  ------------------               | -------------
+  TODO                             | /
+  Detalles básicos                 | /basicDetails
+  Instituciones                    | /institutions
+  Áreas de investigación           | /investigationAreas
+  Miembros                         | /members
