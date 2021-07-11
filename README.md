@@ -22,54 +22,26 @@ npm install
 Iniciar el proyecto localmente:
 
 ```bash
-node npm run serve
+node npm start
 ```
 
-Mostrar los errores en consola:
+Construir el proyecto para producción 
 
 ```bash
-node npm run lint
+node npm build
 ```
 
-Iniciar el proyecto para producción 
+## Indice
 
-```bash
-node npm run start
-```
+Para más detalles visita la siguiente documentación.
 
-## Lista de enpoints
+* [General](./doc/js.md) - Guía básica para empezar a trabajar en Querylac 😁.
+* [Redux](./doc/html.md) - Guía básica para trabajar con redux en Querylac.
+* [Styles](./doc/css.md) - Guía para escribir y modificar los estilos de los diferentes componentes.
+* [Deploy](./doc/js.md) - Guía para desplegar el proyecto a Heroku. 
+* [Miscelanea](./doc/misc.md) - Descripción de las librerías/utilidades usadas en el proyecto.
+* [Faq](./doc/css.md) - Preguntas frecuentes.
 
-#### CvLac
+## ¡Contribuye!
 
-  El enpoint principal es /api/cvlac/teacher/:dni
-  Ejemplo: /api/cvlac/teacher/79523926/articles
-
-  Propiedad                        | Modificación
-  ------------------               | -------------
-  TODO                             | /
-  Detalles básicos                 | /basicDetails
-  Artículos                        | /articles
-  Capítulos de libro               | /bookChapters
-  Distinciones                     | /awards
-  Eventos                          | /events
-  Idioma                           | /languages
-  Libros                           | /books
-  Redes                            | /networks
-  Software                         | /softwares
-  Formación Académica              | /titles
-  Jurados en comite de evaluación  | /judges
-  Proyectos                        | /projects
-  Par evaluador                    | /couplesEvaluators
-
-#### GroupLac
-
-  El enpoint principal es /api/groupLac/group/:cod
-  Ejemplo: /api/groupLac/group/COL0066893/institutions
-
-  Propiedad                        | Modificación
-  ------------------               | -------------
-  TODO                             | /
-  Detalles básicos                 | /basicDetails
-  Instituciones                    | /institutions
-  Áreas de investigación           | /investigationAreas
-  Miembros                         | /members
+Próximamente se decidirá cómo será la estructura y la metodología para el trabajo colaborativo en Git Hub.
