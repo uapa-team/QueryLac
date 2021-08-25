@@ -7,8 +7,8 @@ import getTeacherData from "./reducers/LacTable/getTeachersData.reducer";
 import getGroupData from "./reducers/LacTable/getGroupsData.reducer";
 
 const reducer = combineReducers({
-    teachers: getTeacherData,
-    groups: getGroupData,
+    cvlac: getTeacherData,
+    grouplac: getGroupData,
 });
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(logger, thunk)));

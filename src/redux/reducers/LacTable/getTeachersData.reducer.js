@@ -59,6 +59,7 @@ const initialState = {
         judges: [],
         projects: [],
         couplesEvaluators: [],
+        notFound: []
     },
     loading: null,
     error: null
@@ -89,16 +90,13 @@ const reducer = (state = initialState, {type, payload}) => {
                     titles: [...state.data.titles, ...payload['titles']],
                     judges: [...state.data.judges, ...payload['judges']],
                     projects: [...state.data.projects, ...payload['projects']],
-                    couplesEvaluators: [...state.data.couplesEvaluators, ...payload['couplesEvaluators']]
-
+                    couplesEvaluators: [...state.data.couplesEvaluators, ...payload['couplesEvaluators']],
+                    notFound: [...payload['notFound']]
                 }
             };
 
         case GET_TEACHERS_INFO_FAILURE:
             return {...state, loading: false, error: payload};
-
-        default:
-            return state;
 
         case GET_TEACHER_BASIC_DETAILS_REQUEST:
             return {...state, loading: true, error: null};
@@ -108,7 +106,8 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    basicDetails: [...state.data.basicDetails, payload]
+                    basicDetails: [...state.data.basicDetails, ...payload['basicDetails']],
+                    notFound: [...payload['notFound']]
                 }
             };
         case GET_TEACHER_BASIC_DETAILS_FAILURE:
@@ -123,7 +122,8 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    articles: [...state.data.articles, ...payload['articles']]
+                    articles: [...state.data.articles, ...payload['articles']],
+                    notFound: [...payload['notFound']]
                 }
             };
         case GET_TEACHERS_ARTICLES_FAILURE:
@@ -138,7 +138,8 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    bookChapters: [...state.data.bookChapters, ...payload['bookChapters']]
+                    bookChapters: [...state.data.bookChapters, ...payload['bookChapters']],
+                    notFound: [...payload['notFound']]
                 }
             };
         case GET_TEACHERS_BOOK_CHAPTERS_FAILURE:
@@ -153,7 +154,8 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    awards: [...state.data.awards, ...payload['awards']]
+                    awards: [...state.data.awards, ...payload['awards']],
+                    notFound: [...payload['notFound']]
                 }
             };
         case GET_TEACHERS_AWARDS_FAILURE:
@@ -168,7 +170,8 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    events: [...state.data.events, ...payload['events']]
+                    events: [...state.data.events, ...payload['events']],
+                    notFound: [...payload['notFound']]
                 }
             };
         case GET_TEACHERS_EVENTS_FAILURE:
@@ -183,7 +186,8 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    languages: [...state.data.languages, ...payload['languages']]
+                    languages: [...state.data.languages, ...payload['languages']],
+                    notFound: [...payload['notFound']]
                 }
             };
         case GET_TEACHERS_LANGUAGES_FAILURE:
@@ -198,7 +202,8 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    books: [...state.data.books, ...payload['books']]
+                    books: [...state.data.books, ...payload['books']],
+                    notFound: [...payload['notFound']]
                 }
             };
         case GET_TEACHERS_BOOKS_FAILURE:
@@ -213,7 +218,8 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    networks: [...state.data.networks, ...payload['networks']]
+                    networks: [...state.data.networks, ...payload['networks']],
+                    notFound: [...payload['notFound']]
                 }
             };
         case GET_TEACHERS_NETWORKS_FAILURE:
@@ -228,7 +234,8 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    softwares: [...state.data.softwares, ...payload['softwares']]
+                    softwares: [...state.data.softwares, ...payload['softwares']],
+                    notFound: [...payload['notFound']]
                 }
             };
         case GET_TEACHERS_SOFTWARES_FAILURE:
@@ -243,7 +250,8 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    titlesd: [...state.data.titlesd, ...payload['titlesd']]
+                    titles: [...state.data.titles, ...payload['titles']],
+                    notFound: [...payload['notFound']]
                 }
             };
         case GET_TEACHERS_TITLES_FAILURE:
@@ -259,7 +267,8 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    judges: [...state.data.judges, ...payload['judges']]
+                    judges: [...state.data.judges, ...payload['judges']],
+                    notFound: [...payload['notFound']]
                 }
             };
         case GET_TEACHERS_JUDGES_FAILURE:
@@ -274,7 +283,8 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    projects: [...state.data.projects, ...payload['projects']]
+                    projects: [...state.data.projects, ...payload['projects']],
+                    notFound: [...payload['notFound']]
                 }
             };
         case GET_TEACHERS_PROJECTS_FAILURE:
@@ -289,11 +299,15 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    couplesEvaluators: [...state.data.couplesEvaluators, ...payload['couplesEvaluators']]
+                    couplesEvaluators: [...state.data.couplesEvaluators, ...payload['couplesEvaluators']],
+                    notFound: [...payload['notFound']]
                 }
             };
         case GET_TEACHERS_COUPLES_EVALUATORS_FAILURE:
             return {...state, loading: false, error: payload};
+
+        default:
+            return state;
 
     }
 

@@ -28,7 +28,7 @@ export const getTeachersInfo = (ids, items = "") => {
                 if (!response.ok) throw Error(response.status);
                 return response;
             });
-            const {data} = await response.json();
+            const {data,errors} = await response.json();
             const dataMerged = {
                 basicDetails: [],
                 articles: [],
@@ -43,8 +43,9 @@ export const getTeachersInfo = (ids, items = "") => {
                 judges: [],
                 projects: [],
                 couplesEvaluators: [],
+                notFound:[],
             }
-
+            //Flat info
             data.forEach(teacher => {
                 dataMerged.basicDetails.push(teacher['basicDetails']);
                 dataMerged.articles.push(...teacher['articles']);
@@ -60,6 +61,8 @@ export const getTeachersInfo = (ids, items = "") => {
                 dataMerged.projects.push(...teacher['projects'])
                 dataMerged.couplesEvaluators.push(...teacher['couplesEvaluators'])
             })
+            dataMerged.notFound = errors;
+
             return dispatch(getTeachersInfoSuccess(dataMerged));
         } catch (error) {
             dispatch(getTeachersInfoFailure(error))
