@@ -2,7 +2,7 @@ import {
  GET_TEACHERS_INFO_REQUEST,
  GET_TEACHERS_INFO_SUCCESS,
  GET_TEACHERS_INFO_FAILURE,
-} from '../../../constants/LacTable/cvlac.actionTypes';
+} from '../../../constants/cvlac.actionTypes';
 
 export const getTeachersInfo = (ids, items = "") => {
     return async (dispatch, getState) => {
@@ -45,6 +45,7 @@ export const getTeachersInfo = (ids, items = "") => {
                 couplesEvaluators: [],
                 notFound:[],
             }
+            console.log(data)
             //Flat info
             data.forEach(teacher => {
                 dataMerged.basicDetails.push(teacher['basicDetails']);

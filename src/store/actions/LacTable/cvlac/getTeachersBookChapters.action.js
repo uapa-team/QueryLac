@@ -1,14 +1,14 @@
-import {requestTeachersData} from '../../../utils/getTeachersData.utils';
+import {requestSingleTeachersData} from '../../../utils/getTeachersData.utils';
 import {
  GET_TEACHERS_BOOK_CHAPTERS_REQUEST,
  GET_TEACHERS_BOOK_CHAPTERS_SUCCESS,
  GET_TEACHERS_BOOK_CHAPTERS_FAILURE,
-} from '../../../constants/LacTable/cvlac.actionTypes';
+} from '../../../constants/cvlac.actionTypes';
 
 export const getTeachersBookChapters = (ids) => {
     return async (dispatch, getState) => {
         dispatch(getTeachersBookChaptersRequest());
-        const data = await requestTeachersData(ids, "bookChapters").catch(e => {
+        const data = await requestSingleTeachersData(ids, "bookChapters").catch(e => {
             dispatch(getTeachersBookChaptersFailure(e));
         });
         return dispatch(getTeachersBookChaptersSuccess(data));

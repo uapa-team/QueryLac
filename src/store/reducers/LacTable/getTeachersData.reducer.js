@@ -42,7 +42,7 @@ import {
     GET_TEACHERS_COUPLES_EVALUATORS_REQUEST,
     GET_TEACHERS_COUPLES_EVALUATORS_SUCCESS,
     GET_TEACHERS_COUPLES_EVALUATORS_FAILURE,
-} from "../../constants/LacTable/cvlac.actionTypes"
+} from "../../constants/cvlac.actionTypes"
 
 const initialState = {
     data: {
@@ -74,23 +74,24 @@ const reducer = (state = initialState, {type, payload}) => {
             return {...state, loading: true, error: null};
 
         case GET_TEACHERS_INFO_SUCCESS:
+            console.log(payload)
             return {
                 ...state,
                 loading: false,
                 data: {
-                    basicDetails: [...state.data.basicDetails],
-                    articles: [...state.data.articles, ...payload['articles']],
-                    bookChapters: [...state.data.bookChapters, ...payload['bookChapters']],
-                    awards: [...state.data.awards, ...payload['awards']],
-                    events: [...state.data.events, ...payload['events']],
-                    languages: [...state.data.languages, ...payload['languages']],
-                    books: [...state.data.books, ...payload['books']],
-                    networks: [...state.data.networks, ...payload['networks']],
-                    softwares: [...state.data.softwares, ...payload['softwares']],
-                    titles: [...state.data.titles, ...payload['titles']],
-                    judges: [...state.data.judges, ...payload['judges']],
-                    projects: [...state.data.projects, ...payload['projects']],
-                    couplesEvaluators: [...state.data.couplesEvaluators, ...payload['couplesEvaluators']],
+                    basicDetails: [...payload['basicDetails']],
+                    articles: [...payload['articles']],
+                    bookChapters: [...payload['bookChapters']],
+                    awards: [...payload['awards']],
+                    events: [...payload['events']],
+                    languages: [...payload['languages']],
+                    books: [...payload['books']],
+                    networks: [...payload['networks']],
+                    softwares: [...payload['softwares']],
+                    titles: [...payload['titles']],
+                    judges: [...payload['judges']],
+                    projects: [...payload['projects']],
+                    couplesEvaluators: [...payload['couplesEvaluators']],
                     notFound: [...payload['notFound']]
                 }
             };
@@ -106,7 +107,7 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    basicDetails: [...state.data.basicDetails, ...payload['basicDetails']],
+                    basicDetails: [...payload['basicDetails']],
                     notFound: [...payload['notFound']]
                 }
             };
@@ -122,7 +123,7 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    articles: [...state.data.articles, ...payload['articles']],
+                    articles: [...payload['articles']],
                     notFound: [...payload['notFound']]
                 }
             };
@@ -138,7 +139,7 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    bookChapters: [...state.data.bookChapters, ...payload['bookChapters']],
+                    bookChapters: [...payload['bookChapters']],
                     notFound: [...payload['notFound']]
                 }
             };
@@ -154,7 +155,7 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    awards: [...state.data.awards, ...payload['awards']],
+                    awards: [...payload['awards']],
                     notFound: [...payload['notFound']]
                 }
             };
@@ -170,7 +171,7 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    events: [...state.data.events, ...payload['events']],
+                    events: [...payload['events']],
                     notFound: [...payload['notFound']]
                 }
             };
@@ -186,7 +187,7 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    languages: [...state.data.languages, ...payload['languages']],
+                    languages: [...payload['languages']],
                     notFound: [...payload['notFound']]
                 }
             };
@@ -202,7 +203,7 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    books: [...state.data.books, ...payload['books']],
+                    books: [...payload['books']],
                     notFound: [...payload['notFound']]
                 }
             };
@@ -218,7 +219,7 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    networks: [...state.data.networks, ...payload['networks']],
+                    networks: [...payload['networks']],
                     notFound: [...payload['notFound']]
                 }
             };
@@ -234,7 +235,7 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    softwares: [...state.data.softwares, ...payload['softwares']],
+                    softwares: [...payload['softwares']],
                     notFound: [...payload['notFound']]
                 }
             };
@@ -250,7 +251,7 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    titles: [...state.data.titles, ...payload['titles']],
+                    titles: [...payload['titles']],
                     notFound: [...payload['notFound']]
                 }
             };
@@ -267,7 +268,7 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    judges: [...state.data.judges, ...payload['judges']],
+                    judges: [...payload['judges']],
                     notFound: [...payload['notFound']]
                 }
             };
@@ -283,7 +284,7 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    projects: [...state.data.projects, ...payload['projects']],
+                    projects: [...payload['projects']],
                     notFound: [...payload['notFound']]
                 }
             };
@@ -299,7 +300,7 @@ const reducer = (state = initialState, {type, payload}) => {
                 loading: false,
                 data: {
                     ...state.data,
-                    couplesEvaluators: [...state.data.couplesEvaluators, ...payload['couplesEvaluators']],
+                    couplesEvaluators: [...payload['couplesEvaluators']],
                     notFound: [...payload['notFound']]
                 }
             };

@@ -4,7 +4,7 @@ import {getTeachersBookChapters} from "./getTeachersBookChapters.action";
 import {resetTeachersData} from "./resetTeachersData.action";
 import {getTeachersInfo} from "./getTeachersInfo.action";
 import {getTeachersAwards} from "./getTeachersAwards.action";
-import {getTeacherEvents} from "./getTeachersEvents.action";
+import {getTeachersEvents} from "./getTeachersEvents.action";
 import {getTeachersLanguages} from "./getTeachersLanguages.action";
 import {getTeachersBooks} from "./getTeachersBooks.action";
 import {getTeachersNetworks} from "./getTeachersNetworks.action";
@@ -21,7 +21,7 @@ const teachersActions = {
     resetTeachersData,
     getTeachersInfo,
     getTeachersAwards,
-    getTeacherEvents,
+    getTeachersEvents,
     getTeachersLanguages,
     getTeachersBooks,
     getTeachersNetworks,

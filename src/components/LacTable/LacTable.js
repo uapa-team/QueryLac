@@ -11,8 +11,8 @@ import XLSX from 'xlsx';
 import './LacTable.scss';
 
 
-import teachersActions from "../../redux/actions/LacTable/cvlac/";
-import groupsActions from "../../redux/actions/LacTable/grouplac/";
+import teachersActions from "../../store/actions/LacTable/cvlac/";
+import groupsActions from "../../store/actions/LacTable/grouplac/";
 
 
 //TODO: Make this queryable?? or just let them in english
@@ -47,30 +47,24 @@ function capitalizeFirstLetter(str) {
 export default function LacTable(props) {
     const dispatch = useDispatch();
 
-    const initialCategories = cvlacCategories;
-    const initialActiveCategory = 'basicDetails';
-    const initialActiveModule = 'cvlac';
-    const initialDataToRequest = [];
-    const initialError = null;
-
-    const [categories, setCategories] = useState(initialCategories);
-    const [activeCategory, setActiveCategory] = useState(initialActiveCategory);
-    const [activeModule, setActiveModule] = useState(initialActiveModule);
-    const [dataToRequest, setDataToRequest] = useState(initialDataToRequest);
-    const [error, setError] = useState(initialError);
+    const [categories, setCategories] = useState(cvlacCategories);
+    const [activeCategory, setActiveCategory] = useState('basicDetails');
+    const [activeModule, setActiveModule] = useState( 'cvlac');
+    const [dataToRequest, setDataToRequest] = useState([]);
+    const [error, setError] = useState(null);
 
     const data = useSelector(state => state[activeModule].data);
     const isLoading = useSelector(state => state[activeModule].loading);
     const thereIsError = useSelector(state => state[activeModule].error);
 
-    // useEffect(() =>{
-    //
-    //     console.log("as");
-    //     // if (thereIsError !==null || error !==null) {
-    //     //     message.error("Oups!")
-    //     //     setError(thereIsError);
-    //     // }
-    // },[thereIsError, error]);
+    useEffect(() =>{
+
+        console.log(dataToRequest);
+        // if (thereIsError !==null || error !==null) {
+        //     message.error("Oups!")
+        //     setError(thereIsError);
+        // }
+    },[thereIsError, error]);
 
     const getAllInfo = async () => {
         // Base on the module is on, call the correspondent method
@@ -123,7 +117,6 @@ export default function LacTable(props) {
                 if (data[category].length > 0) return;
                 //Example: if category is "basicDetails" then requestMethod would be "getTeacherBasicDetails";
                 requestMethod = `getTeachers${capitalizeFirstLetter(category)}`;
-                console.log(dataToRequest)
                 dispatch(teachersActions[requestMethod](dataToRequest))
 
                 break;
@@ -178,8 +171,16 @@ export default function LacTable(props) {
         // Workbook contains one or more worksheets
         // make Workbook of Excel
         const workBook = XLSX.utils.book_new();
+
         Object.keys(data).forEach((category) => {
+
             const workSheet = XLSX.utils.json_to_sheet(data[category]);
+
+            //For some reason arrays are not exportable, so i had to convert every array to a string
+            Object.entries(workSheet).map(([key, value], index) => {
+                if (Array.isArray(value)) workSheet[key] = {t: 's', v: value.join()};
+            });
+
             // add Worksheet to Workbook
             XLSX.utils.book_append_sheet(workBook, workSheet, category); // sheetAName is name of Worksheet
         });
@@ -220,7 +221,9 @@ export default function LacTable(props) {
         },
         beforeUpload: (file) => {
             readXlsxFile(file).then(async (rows) => {
-                const dnis = rows.map(row => row[0]);
+                let dnis = rows.map(row => row[0]);
+                //Remove empty values
+                dnis = dnis.filter(n => n)
                 setDataToRequest(dnis);
                 console.log(dnis)
                 switch (activeModule) {

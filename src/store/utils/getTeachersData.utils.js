@@ -1,4 +1,4 @@
-export async function requestTeachersData (ids, path="") {
+export async function requestSingleTeachersData (ids, path="") {
 
     const apiUrl =
         process.env.NODE_ENV === 'production' ?
@@ -21,9 +21,10 @@ export async function requestTeachersData (ids, path="") {
             if (!response.ok) throw Error(response.status);
             return response;
         });
-        const {data} = await response.json();
+        const {data, errors} = await response.json();
         const dataMerged = {
             [path]: [],
+            notFound: errors
         }
         data.forEach(teacher => {
             dataMerged[path].push(...teacher[path]);
